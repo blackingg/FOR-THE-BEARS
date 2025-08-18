@@ -4,6 +4,7 @@ import { Experience } from "./components/Experience";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { UI } from "./components/UI";
 import { LoadingScreen } from "./components/LoadingScreen";
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   const [started, setStarted] = useState(false);
@@ -36,6 +37,7 @@ function App() {
         started={started}
         setStarted={setStarted}
       />
+      <Analytics />
     </>
   );
 }
