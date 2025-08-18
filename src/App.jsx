@@ -1,12 +1,42 @@
+import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { UI } from "./components/UI";
+import { LoadingScreen } from "./components/LoadingScreen";
 
 function App() {
+  const [started, setStarted] = useState(false);
+
   return (
-    <Canvas shadows camera={{ position: [3, 3, 3], fov: 30 }}>
-      <color attach="background" args={["#ececec"]} />
-      <Experience />
-    </Canvas>
+    <>
+      <Canvas
+        shadows
+        camera={{ position: [3, 4, 8], fov: 20 }}
+      >
+        <color
+          attach="background"
+          args={["#171720"]}
+        />
+        <Suspense>
+          <Experience />
+        </Suspense>
+
+        <EffectComposer>
+          <Bloom
+            mipmapblur
+            intensity={0.2}
+          />
+        </EffectComposer>
+      </Canvas>
+
+      {started && <UI />}
+
+      <LoadingScreen
+        started={started}
+        setStarted={setStarted}
+      />
+    </>
   );
 }
 
