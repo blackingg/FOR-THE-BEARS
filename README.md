@@ -1,10 +1,4 @@
-# r3f-vite-starter
-A boilerplate to build R3F projects
+CREDITS:
 
-```
-yarn
-yarn dev
-```
+"Free Low Poly Forest" (https://skfb.ly/oq6IA) by purepoly is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
-
-![image](https://user-images.githubusercontent.com/6551176/221732091-23ee52cb-4150-42fa-b998-43628d7a6b0d.png)

@@ -14,6 +14,8 @@ import { RenderTexture } from "@react-three/drei";
 import { Color } from "three";
 import { currentPageAtom } from "./UI";
 import { useAtom } from "jotai";
+import { Physics } from "@react-three/rapier";
+import { Character } from "./Character";
 
 const bloomColor = new Color("#fff");
 bloomColor.multiplyScalar(1.5);
@@ -72,7 +74,7 @@ export const Experience = () => {
   }, [currentPage]);
 
   return (
-    <>
+    <Physics>
       <OrbitControls />
       <CameraControls ref={controls} />
       <mesh
@@ -160,8 +162,10 @@ export const Experience = () => {
         />
       </mesh>
 
+      <Character position={[-1.9, 0.04, 1.9]} />
+
       <Environment preset="forest" />
-    </>
+    </Physics>
   );
 };
 
