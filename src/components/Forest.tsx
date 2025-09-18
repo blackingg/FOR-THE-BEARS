@@ -7,12 +7,15 @@ Source: https://sketchfab.com/3d-models/free-low-poly-forest-6dc8c85121234cb59db
 Title: Free Low Poly Forest
 */
 
-import React from "react";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
-export function Forest(props) {
-  const { nodes, materials } = useGLTF("/models/low_poly_forest.glb");
+interface ForestProps {
+  [key: string]: any;
+}
+
+export function Forest(props: ForestProps) {
+  const { nodes, materials } = useGLTF("/models/low_poly_forest.glb") as any;
   return (
     <RigidBody type="fixed" colliders="trimesh">
       <group

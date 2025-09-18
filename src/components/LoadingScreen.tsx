@@ -1,7 +1,12 @@
 import { useProgress } from "@react-three/drei";
 import { useEffect } from "react";
 
-export const LoadingScreen = (props) => {
+interface LoadingScreenProps {
+  started: boolean;
+  setStarted: (started: boolean) => void;
+}
+
+export const LoadingScreen = (props: LoadingScreenProps) => {
   const { started, setStarted } = props;
   const { progress, total, loaded, item } = useProgress();
 
@@ -12,13 +17,14 @@ export const LoadingScreen = (props) => {
         setStarted(true);
       }, 1000);
     }
-  }, [progress, total, loaded, item]);
+  }, [progress, total, loaded, item, setStarted]);
 
-  const getItemName = (itemUrl) => {
+  const getItemName = (itemUrl: string | undefined): string => {
     if (!itemUrl) return "Initializing...";
 
     try {
       const fileName = itemUrl.split("/").pop();
+      if (!fileName) return "Loading asset...";
 
       const nameWithoutExt = fileName.split(".")[0];
       return decodeURIComponent(nameWithoutExt);

@@ -11,7 +11,7 @@ import { Forest } from "./Forest";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { useEffect, useRef } from "react";
 import { RenderTexture } from "@react-three/drei";
-import { Color } from "three";
+import { Color, Mesh } from "three";
 import { currentPageAtom } from "./UI";
 import { useAtom } from "jotai";
 import { Physics } from "@react-three/rapier";
@@ -21,12 +21,13 @@ const bloomColor = new Color("#fff");
 bloomColor.multiplyScalar(1.5);
 
 export const Experience = () => {
-  const controls = useRef();
-  const meshFitCameraHome = useRef();
-  const meshFitCameraExplore = useRef();
+  const controls = useRef<CameraControls>(null);
+  const meshFitCameraHome = useRef<Mesh>(null);
+  const meshFitCameraExplore = useRef<Mesh>(null);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
 
-  const intro = async () => {
+  const intro = async (): Promise<void> => {
+    if (!controls.current) return;
     controls.current.dolly(-22);
     controls.current.smoothTime = 1.2;
     setTimeout(() => {
@@ -35,7 +36,9 @@ export const Experience = () => {
     fitCamera();
   };
 
-  const fitCamera = async () => {
+  const fitCamera = async (): Promise<void> => {
+    if (!controls.current) return;
+    
     if (currentPage === "explore") {
       controls.current.smoothTime = 2.0;
 
@@ -57,7 +60,9 @@ export const Experience = () => {
       ]);
     } else {
       controls.current.smoothTime = 1.0;
-      controls.current.fitToBox(meshFitCameraHome.current, true);
+      if (meshFitCameraHome.current) {
+        controls.current.fitToBox(meshFitCameraHome.current, true);
+      }
     }
   };
 

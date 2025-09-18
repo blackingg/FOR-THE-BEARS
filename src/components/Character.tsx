@@ -11,13 +11,21 @@ import React from "react";
 import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
+import { Group } from "three";
 
-export function Character(props) {
-  const group = React.useRef();
+interface CharacterProps {
+  [key: string]: any;
+}
+
+export function Character(props: CharacterProps) {
+  const group = React.useRef<Group>(null);
   const { scene, animations } = useGLTF("/models/lil_bear.glb");
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
+  
+  // Suppress the unused variable warning since actions might be used in the future
+  void actions;
   return (
     <group
       ref={group}
@@ -52,33 +60,33 @@ export function Character(props) {
                     />
                     <skinnedMesh
                       name="Object_43"
-                      geometry={nodes.Object_43.geometry}
+                      geometry={(nodes as any).Object_43.geometry}
                       material={materials.Body}
-                      skeleton={nodes.Object_43.skeleton}
+                      skeleton={(nodes as any).Object_43.skeleton}
                       morphTargetDictionary={
-                        nodes.Object_43.morphTargetDictionary
+                        (nodes as any).Object_43.morphTargetDictionary
                       }
                       morphTargetInfluences={
-                        nodes.Object_43.morphTargetInfluences
+                        (nodes as any).Object_43.morphTargetInfluences
                       }
                     />
                     <skinnedMesh
                       name="Object_44"
-                      geometry={nodes.Object_44.geometry}
+                      geometry={(nodes as any).Object_44.geometry}
                       material={materials.MouthShapes}
-                      skeleton={nodes.Object_44.skeleton}
+                      skeleton={(nodes as any).Object_44.skeleton}
                       morphTargetDictionary={
-                        nodes.Object_44.morphTargetDictionary
+                        (nodes as any).Object_44.morphTargetDictionary
                       }
                       morphTargetInfluences={
-                        nodes.Object_44.morphTargetInfluences
+                        (nodes as any).Object_44.morphTargetInfluences
                       }
                     />
                     <skinnedMesh
                       name="Object_46"
-                      geometry={nodes.Object_46.geometry}
+                      geometry={(nodes as any).Object_46.geometry}
                       material={materials.Coat}
-                      skeleton={nodes.Object_46.skeleton}
+                      skeleton={(nodes as any).Object_46.skeleton}
                     />
                   </group>
                 </group>

@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 
-export const currentPageAtom = atom("intro");
+export const currentPageAtom = atom<string>("intro");
 
 export const UI = () => {
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);

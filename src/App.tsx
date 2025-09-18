@@ -7,7 +7,7 @@ import { LoadingScreen } from "./components/LoadingScreen";
 import { Analytics } from "@vercel/analytics/react";
 
 function App() {
-  const [started, setStarted] = useState(false);
+  const [started, setStarted] = useState<boolean>(false);
 
   return (
     <>
