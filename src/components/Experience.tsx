@@ -16,17 +16,19 @@ import { currentPageAtom } from "./UI";
 import { useAtom } from "jotai";
 import { Physics } from "@react-three/rapier";
 import { Character } from "./Character";
+import { Mesh } from "three";
 
 const bloomColor = new Color("#fff");
 bloomColor.multiplyScalar(1.5);
 
 export const Experience = () => {
-  const controls = useRef();
-  const meshFitCameraHome = useRef();
-  const meshFitCameraExplore = useRef();
+  const controls = useRef<CameraControls | null>(null);
+  const meshFitCameraHome = useRef<Mesh | null>(null);
+  const meshFitCameraExplore = useRef<Mesh | null>(null);
   const [currentPage, setCurrentPage] = useAtom(currentPageAtom);
 
   const intro = async () => {
+    if (!controls.current) return;
     controls.current.dolly(-22);
     controls.current.smoothTime = 1.2;
     setTimeout(() => {
@@ -36,6 +38,8 @@ export const Experience = () => {
   };
 
   const fitCamera = async () => {
+    if (!controls.current) return;
+    
     if (currentPage === "explore") {
       controls.current.smoothTime = 2.0;
 
@@ -57,12 +61,15 @@ export const Experience = () => {
       ]);
     } else {
       controls.current.smoothTime = 1.0;
-      controls.current.fitToBox(meshFitCameraHome.current, true);
+      if (meshFitCameraHome.current) {
+        controls.current.fitToBox(meshFitCameraHome.current, true);
+      }
     }
   };
 
   useEffect(() => {
     intro();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -71,6 +78,7 @@ export const Experience = () => {
     return () => {
       window.removeEventListener("resize", fitCamera);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
 
   return (
